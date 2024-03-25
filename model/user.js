@@ -16,7 +16,7 @@ const userSchema=Schema({
     contact:{
         type:Number,
     },
-    liscense:{
+    liscence:{
         type:Number,
     },
     proof:{

@@ -11,5 +11,11 @@ router.post('/donorsendrqst',async (req,res)=>{
     res.json({message:savedDonorsendrqst})
 })
 
+router.get('/vwhosdetail',async(req,res)=>{
+    console.log(req.body)
+    let vwhosdetail = await user.find({userType:'hospital'})
+    console.log(vwhosdetail);
+    res.json(vwhosdetail)
+})
 
 export default router

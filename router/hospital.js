@@ -30,4 +30,7 @@ router.post('/myorganrqst',async(req,res)=>{
     const savedMyorganrqst= await newMyorganrqst.save()
     res.json({message:savedMyorganrqst})
 })
+
+
+router.get('/')
 export default router

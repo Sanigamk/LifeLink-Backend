@@ -38,6 +38,14 @@ router.get('/vwdonorprofile/:id',async(req,res)=>{
     res.json(response)
 
 })
+
+router.get('/vwhosprofile/:id',async (req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let response=await user.findById(id)
+    console.log(response);
+    res.json(response)
+})
 router.put('/editdonorprofile/:id',upload.fields([{name:'certificate'},{name:'healthcertificate'},{name:'proof'}]),async(req,res)=>{
     try{
         if(req.files['healthcertificate']){
@@ -92,6 +100,29 @@ router.get('/vwpageuser/:id',async(req,res)=>{
     let vwpageuser = await user.findById(id)
     console.log(vwpageuser);
     res.json(vwpageuser)
+})
+router.get('/vwblddonor', async(req,res)=>{
+    let vwblddonor = await user.find({userType:'blooddonor'})
+    console.log(vwblddonor);
+    res.json(vwblddonor)
+
+})
+router.get('/vwpageblddonor/:id', async(req,res)=>{
+    let id=req.params.id
+    let vwpageblddonor = await user.findById(id)
+    console.log(vwpageblddonor);
+    res.json(vwpageblddonor)
+})
+router.get('/mngcollege',async(req,res)=>{
+    let mngcollege = await user.find({userType:'college'})
+    console.log(mngcollege);
+    res.json(mngcollege)
+})
+router.get('/managcollg/:id',async(req,res)=>{
+    let id=req.params.id
+    let managcollg = await user.findById(id)
+    console.log(managcollg)
+    res.json(managcollg)
 })
 
 export default router
