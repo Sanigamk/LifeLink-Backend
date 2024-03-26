@@ -46,7 +46,15 @@ router.get('/vwhosprofile/:id',async (req,res)=>{
     console.log(response);
     res.json(response)
 })
-router.put('/editdonorprofile/:id',upload.fields([{name:'certificate'},{name:'healthcertificate'},{name:'proof'}]),async(req,res)=>{
+
+router.get('/vwcollgprofile/:id',async (req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let response=await user.findById(id)
+    console.log(response);
+    res.json(response)
+})
+router.put('/editdonorprofile/:id',upload.fields([{name:'certificate'},{name:'healthcertificate'},{name:'proof'},{name:'conformationcertificate'}]),async(req,res)=>{
     try{
         if(req.files['healthcertificate']){
             let certificate=req.files['healthcertificate'][0].filename
@@ -59,6 +67,10 @@ router.put('/editdonorprofile/:id',upload.fields([{name:'certificate'},{name:'he
         if(req.files['proof']){
             let certificate2=req.files['proof'][0].filename
             req.body={...req.body,proof:certificate2}
+        }
+        if(req.files['conformationcertificate']){
+            let conformationcertificate=req.files['conformationcertificate'][0].filename
+            req.body={...req.body,conformationcertificate:conformationcertificate}
         }
     let id=req.params.id
     console.log(req.body);

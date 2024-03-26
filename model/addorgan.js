@@ -1,6 +1,6 @@
 import { Schema,model } from "mongoose";
 
-const organSchema=Schema({
+const organSchema= new Schema({
     name:{
         type:String,
         required:true
@@ -23,7 +23,7 @@ const organSchema=Schema({
     },
     healthcertificate:{
         type:String,
-        required:true
+        
     },
     pin:{
         type:Number,
@@ -39,11 +39,10 @@ const organSchema=Schema({
     },
     conformationcertificate:{
         type:String,
-        required:true
+        
     },
     organ:{
         type:String,
-        required:true
     },
     witnessname:{
         type:String,

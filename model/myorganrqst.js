@@ -10,10 +10,7 @@ const myorganrqstSchema=Schema({
         type:String,
         required:true
     },
-    place:{
-        type:String,
-        required:true
-    },
+   
     patientname:{
         type:String,
         required:true
@@ -26,27 +23,13 @@ const myorganrqstSchema=Schema({
         type:String,
         required:true
     },
-    pin:{
-        type:Number,
-        required:true
-    },
-    district:{
-        type:String,
-        required:true
-    },
+    
+    
     bloodgroup:{
         type:String,
         required:true
     },
-    contact:{
-        type:Number,
-        required:true
-    },
-    email:{
-        type:String,
-        required:true
-
-    },
+    
     status:{
         type:String
     }
