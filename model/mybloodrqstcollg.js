@@ -7,6 +7,10 @@ const mybloodcollgSchema=Schema({
         type:mongoose.Types.ObjectId,
         ref:user
     },
+    collegeId:{
+        type:mongoose.Types.ObjectId,
+        ref:user
+    },
     bloodgroup:{
         type:String,
         required:true

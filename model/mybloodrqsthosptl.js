@@ -1,8 +1,8 @@
 import mongoose, { Schema,model } from "mongoose";
 import  user  from "./user.js";
 
-const mybloodhosptlSchema=Schema({
-    userId:{
+const mybloodhosptlSchema=new Schema({
+    hospitalId:{
         type:mongoose.Types.ObjectId,
         ref:user
     },
@@ -16,6 +16,7 @@ const mybloodhosptlSchema=Schema({
     },
     status:{
         type:String,
+        default:"pending"
     },
 })
 export const mybloodhosptl = model('mybloodhos',mybloodhosptlSchema)

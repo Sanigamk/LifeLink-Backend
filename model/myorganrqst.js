@@ -31,7 +31,8 @@ const myorganrqstSchema=Schema({
     },
     
     status:{
-        type:String
+        type:String,
+        default:'pending'
     }
 })
 export const myorganrqst = model('myorganrqst',myorganrqstSchema)

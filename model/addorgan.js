@@ -1,6 +1,11 @@
-import { Schema,model } from "mongoose";
+import mongoose, { Schema,model } from "mongoose";
+import user from "./user.js";
 
 const organSchema= new Schema({
+    hospitalId:{
+        type:mongoose.Types.ObjectId,
+        ref:user
+    },
     name:{
         type:String,
         required:true
@@ -52,5 +57,10 @@ const organSchema= new Schema({
         type:Number,
         required:true
     },
+    housename:{
+        type:String,
+        required:true
+    },
+    
 })
 export const addorgan = model('addorgan',organSchema)

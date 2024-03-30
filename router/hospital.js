@@ -4,6 +4,9 @@ import { mybloodhosptl } from "../model/mybloodrqsthosptl.js";
 import { mybloodcollg } from "../model/mybloodrqstcollg.js";
 import { myorganrqst } from "../model/myorganrqst.js";
 import { upload } from "../multer.js";
+import mongoose from "mongoose";
+import user from "../model/user.js";
+import { collgsendreqst } from "../model/collgsendrqst.js";
 const router= express.Router()
 
 router.post('/addorgan',upload.fields([{name:"healthcertificate"},{name:"conformationcertificate"}]),async (req,res)=>{
@@ -21,25 +24,7 @@ router.post('/addorgan',upload.fields([{name:"healthcertificate"},{name:"conform
     res.json({message:savedAddorgan})
 
 })
-router.post('/addcertficate/:id',upload.fields([{name:'healthcertificate'},{name:'conformationcertificate'}]),async(req,res)=>{
-    try{
-        if(req.files['healthcertificate']){
-            let certificate=req.files['healthcertificate'][0].filename
-            req.body={...req.body,healthcertificate:certificate}
-        }
-        if(req.files['conformationcertificate']){
-            let conformationcertificate=req.files['conformationcertificate'][0].filename
-            req.body={...req.body,conformationcertificate:conformationcertificate}
-        }
-    let id=req.params.id
-    console.log(req.body);
-    let response = await user.findByIdAndUpdate(id,req.body)
-    console.log(response);
-}
-catch(e){
-    res.json(e.message)
-}
-})
+
 
 
 router.post('/mybloodhos',async(req,res)=>{
@@ -47,6 +32,19 @@ router.post('/mybloodhos',async(req,res)=>{
     const newMybloodhos = new mybloodhosptl(req.body)
     const savedMybloodhos = await newMybloodhos.save()
     res.json({message:savedMybloodhos})
+})
+
+router.post('/mybloodrqstcllg',async(req,res)=>{
+    console.log(req.body);
+    const newMybldcllgrqst = new mybloodcollg(req.body)
+    const savedMybldcllgrqst = await newMybldcllgrqst.save()
+    res.json({message:savedMybldcllgrqst})
+})
+router.get('/vwcollgdetail',async(req,res)=>{
+    console.log(req.body)
+    let vwcollgdetail = await user.find({userType:'college'})
+    console.log(vwcollgdetail);
+    res.json(vwcollgdetail)
 })
 
 
@@ -83,8 +81,9 @@ router.post('/myorganrqst/:id',upload.fields([{name:"healthcertificate"}]),async
     res.json({message:savedMyorganrqst})
 })
 
-router.get('/vworgandonor',async(req,res)=>{
-    let vworgandonor = await addorgan.find({userType:'hospital'})
+router.get('/vworgandonor/:id',async(req,res)=>{
+    let id=req.params.id
+    let vworgandonor = await addorgan.find({hospitalId:new mongoose.Types.ObjectId(id)})
     console.log(vworgandonor);
     res.json(vworgandonor)
 })
@@ -97,6 +96,92 @@ router.get('/vwpageorgandnr/:id',async(req,res)=>{
   
 
 })
+router.put('/editorgandnr/:id',upload.fields([{name:"healthcertificate"},{name:'conformationcertificate'}]),async(req,res)=>{
+    try{
+        if(req.files['healthcertificate']){
+            let certificate=req.files['healthcertificate'][0].filename
+            req.body={...req.body,healthcertificate:certificate}
+        }
+        if(req.files['conformationcertificate']){
+            let conformationcertificate=req.files['conformationcertificate'][0].filename
+            req.body={...req.body,conformationcertificate:conformationcertificate}
+        }
+        console.log(req,res);
+    const newEditorgandnr = new editorgandnr(req.body)
+    const savedEditorgandnr = await newEditorgandnr.save()
+    res.json({message:savedEditorgandnr})
+}
+catch(e){
+    res.json(e.message)
+}
+})
+
+
+
+
+router.get('/vwpagehosbldrqst/:id',async(req,res)=>{
+    let id=req.params.id
+    let vwpagehosbldrqst = await user.findById(id)
+    console.log(vwpagehosbldrqst);
+    res.json(vwpagehosbldrqst)
+})
+
+router.get('/get/sendlist/:id',async(req,res)=>{
+    let id=req.params.id
+    // let vwsendbloodhist = await mybloodhosptl.find({hospitalId:new mongoose.Types.ObjectId(id)})
+    let vwsendbloodhist = await mybloodhosptl.aggregate([
+        {
+            $match:{'hospitalId':new mongoose.Types.ObjectId(id)}
+        },
+        {
+            $lookup:{
+                from:"users",
+                localField:"hospitalId",
+                foreignField:"_id",
+                as:"hospitalInfo"
+            },  
+        },
+        {
+            $unwind:"$hospitalInfo"
+        }
+    ])
+    console.log(vwsendbloodhist);
+    res.json(vwsendbloodhist)
+})
+
+// router.get('/viewhosbldrqst/:id',async(req,res)=>{
+//     let id=req.params.id
+//     console.log(id);
+//     let vwhosbldrqst = await mybloodhosptl.find({hospitalId:id})
+// console.log(vwhosbldrqst);
+// // res.json(vwhosbldrqst)
+// let responseData=[];
+// for (const newresponse of vwhosbldrqst){
+//     let hospital = await users
+// }
+// })
+
+router.get('/vwcollgreq/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwcollg = await collgsendreqst.find({hospitalId:id});
+    console.log(vwcollg)
+    let responseData=[];
+    for(const newresponse of vwcollg){
+        let college = await user.findById(newresponse.userId);
+        responseData.push({
+            college:college,
+            req:newresponse
+        })
+    } 
+    console.log(responseData)
+    res.json(responseData)
+})
+
+
+
+
+
 
 
 

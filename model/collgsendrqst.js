@@ -6,19 +6,11 @@ const collgsendrqstSchema=Schema({
         type:mongoose.Types.ObjectId,
         ref:user
     },
+    hospitalId:{
+        type:mongoose.Types.ObjectId,
+        ref:user
+    },
     
-    hospitalname:{
-        type:String,
-        required:true
-    },
-    district:{
-        type:String,
-        required:true
-    },
-    hospital:{
-        type:String,
-        required:true
-    },
     campname:{
         type:String,
         required:true
@@ -32,7 +24,8 @@ const collgsendrqstSchema=Schema({
         required:true
     },
     status:{
-        type:String
-    }
+        type:String,
+        default:"pending"
+    },
 })
 export const collgsendreqst = model('collgsendrqst',collgsendrqstSchema)
