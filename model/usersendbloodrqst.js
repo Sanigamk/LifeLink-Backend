@@ -18,12 +18,17 @@ const usersendrqstSchema=Schema({
         type:String,
         required:true
     },
-    bloodunit:{
+    district:{
         type:String,
         required:true
     },
+    Date:{
+        type:Date,
+        default:Date.now
+    },
     status:{
-        type:String
+        type:String,
+        default:"pending"
     },
 })
 export const usersendrqst = model('usersendrqst',usersendrqstSchema)

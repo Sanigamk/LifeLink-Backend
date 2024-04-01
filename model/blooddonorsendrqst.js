@@ -6,14 +6,11 @@ const donorsendrqstSchema=Schema({
         type:mongoose.Types.ObjectId,
         ref:user
     },
-   district:{
-    type:String,
-    required:true
-   },
-   hospital:{
-    type:String,
-    required:true
-   },
+    hospitalId:{
+        type:mongoose.Types.ObjectId,
+        ref:user
+    },
+   
    date:{
     type:String,
     required:true

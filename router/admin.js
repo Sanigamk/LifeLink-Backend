@@ -101,6 +101,16 @@ router.get('/mnghos/:id',async (req,res)=>{
     console.log(mnghos);
     res.json(mnghos)
 })
+router.put('/mnghosptl/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    console.log(req.body)
+    let mnghosptl = await user.findByIdAndUpdate(id,req.body)
+    console.log(mnghosptl);
+    
+})
+
+
 
 router.get('/vwuser',async(req,res)=>{
     let vwuser = await user.find({userType:'user'})
@@ -129,6 +139,7 @@ router.get('/mngcollege',async(req,res)=>{
     let mngcollege = await user.find({userType:'college'})
     console.log(mngcollege);
     res.json(mngcollege)
+
 })
 router.get('/managcollg/:id',async(req,res)=>{
     let id=req.params.id
@@ -136,5 +147,12 @@ router.get('/managcollg/:id',async(req,res)=>{
     console.log(managcollg)
     res.json(managcollg)
 })
-
+router.put('/mngcllg/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    console.log(req.body)
+    let mngcllg = await user.findByIdAndUpdate(id,req.body)
+    console.log(mngcllg);
+    
+})
 export default router

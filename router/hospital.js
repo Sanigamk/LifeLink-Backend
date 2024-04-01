@@ -83,7 +83,7 @@ router.post('/myorganrqst/:id',upload.fields([{name:"healthcertificate"}]),async
 
 router.get('/vworgandonor/:id',async(req,res)=>{
     let id=req.params.id
-    let vworgandonor = await addorgan.find({hospitalId:new mongoose.Types.ObjectId(id)})
+    let vworgandonor = await addorgan.find({hospitalId:id})
     console.log(vworgandonor);
     res.json(vworgandonor)
 })
@@ -149,17 +149,22 @@ router.get('/get/sendlist/:id',async(req,res)=>{
     res.json(vwsendbloodhist)
 })
 
-// router.get('/viewhosbldrqst/:id',async(req,res)=>{
-//     let id=req.params.id
-//     console.log(id);
-//     let vwhosbldrqst = await mybloodhosptl.find({hospitalId:id})
-// console.log(vwhosbldrqst);
-// // res.json(vwhosbldrqst)
-// let responseData=[];
-// for (const newresponse of vwhosbldrqst){
-//     let hospital = await users
-// }
-// })
+router.get('/viewhosbldrqst/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwhosbldrqst = await mybloodhosptl.find()
+console.log(vwhosbldrqst);
+let responseData =[];
+for (const newresponse of vwhosbldrqst){
+
+    let hosptlset=await user.findById(newresponse.hospitalId)
+    responseData.push({
+        hosptlset:hosptlset
+    });
+}
+console.log(responseData)
+res.json(responseData)
+})
 
 router.get('/vwcollgreq/:id',async(req,res)=>{
     let id=req.params.id

@@ -69,7 +69,11 @@ const userSchema=Schema({
     userType:{
         type:String,
        
-    }
+    },
+    status:{
+        type:String,
+        default:"pending"
+    },
 })
 const user = model('user',userSchema)
 export default user
