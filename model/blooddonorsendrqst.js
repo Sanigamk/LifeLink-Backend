@@ -20,7 +20,8 @@ const donorsendrqstSchema=Schema({
     required:true
    },
    status:{
-    type:String
+    type:String,
+    default:"pending"
    },
 })
 export const donorsendrqst = model('donorsendrqst',donorsendrqstSchema) 

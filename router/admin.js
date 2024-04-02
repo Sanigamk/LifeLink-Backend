@@ -123,6 +123,18 @@ router.get('/vwpageuser/:id',async(req,res)=>{
     console.log(vwpageuser);
     res.json(vwpageuser)
 })
+router.put('/mnguser/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    console.log(req.body)
+    let mngbuser = await user.findByIdAndUpdate(id,req.body)
+    console.log(mngbuser);
+    
+})
+
+
+
+
 router.get('/vwblddonor', async(req,res)=>{
     let vwblddonor = await user.find({userType:'blooddonor'})
     console.log(vwblddonor);
@@ -135,6 +147,16 @@ router.get('/vwpageblddonor/:id', async(req,res)=>{
     console.log(vwpageblddonor);
     res.json(vwpageblddonor)
 })
+router.put('/mngblddonor/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    console.log(req.body)
+    let mngblddonor = await user.findByIdAndUpdate(id,req.body)
+    console.log(mngblddonor);
+    
+})
+
+
 router.get('/mngcollege',async(req,res)=>{
     let mngcollege = await user.find({userType:'college'})
     console.log(mngcollege);
@@ -155,4 +177,6 @@ router.put('/mngcllg/:id',async(req,res)=>{
     console.log(mngcllg);
     
 })
+
+
 export default router
