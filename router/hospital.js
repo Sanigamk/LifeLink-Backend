@@ -75,7 +75,7 @@ catch(e){
 
 
 
-router.post('/myorganrqst/:id',upload.fields([{name:"healthcertificate"}]),async(req,res)=>{
+router.post('/myorganrqst',upload.fields([{name:"healthcertificate"}]),async(req,res)=>{
     console.log(req.body);
     if(req.files['healthcertificate']){
         let healthcertificate=req.files['healthcertificate'][0].filename
@@ -160,6 +160,8 @@ router.get('/get/sendlist/:id',async(req,res)=>{
 
 
 
+
+
 router.get('/vwblddonordonationreq/:id',async(req,res)=>{
     try{
     let id=req.params.id
@@ -188,16 +190,20 @@ router.get('/vwpageblddonation/:id',async(req,res)=>{
     let vwpageblddonation = await donorsendrqst.findById(id)
     console.log(vwpageblddonation);
     let donor=await user.findById(vwpageblddonation.userId)
-    res.json(vwpageblddonation,donor)
+    res.json({vwpageblddonation,donor})
 })
 router.put('/mngblddonordonationreq/:id',async(req,res)=>{
     let id=req.params.id
-    console.log(id);
+    console.log(id,'jhghfc');
     console.log(req.body)
-    let mngblddonationreq = await user.findByIdAndUpdate(id,req.body)
+    let mngblddonationreq = await user.findByIdAndUpdate(id,req.body,{ new: true })
     console.log(mngblddonationreq);
-    
+    res.json(mngblddonationreq)
 })
+
+
+
+
 
 
 
@@ -208,7 +214,7 @@ router.get('/viewhosbldrqst/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
     let vwbldrqst = await mybloodhosptl.find()
-console.log(vwblooddonor);
+console.log(vwbldrqst);
 let responseData =[];
 for (const newresponse of vwbldrqst){
 
@@ -242,6 +248,54 @@ router.put('/mnghosptlbldrqst/:id',async(req,res)=>{
 
 
 
+
+
+
+
+router.get('/viewhosorganrqst/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vworgnrqst = await myorganrqst.find()
+console.log(vworgnrqst);
+let responseData =[];
+for (const newresponse of vworgnrqst){
+
+    let hosptldet=await user.findById(newresponse.userId)
+    responseData.push({
+        hosptldet:hosptldet,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+})
+router.get('/mnghosorganrqst/:id',async (req,res)=>{
+    let id=req.params.id
+    let mnghosorganreq = await myorganrqst.findById(id)
+    console.log(mnghosorganreq);
+    let hosptl=await user.findById(mnghosorganreq.userId)
+    res.json({mnghosorganreq,hosptl})
+})
+router.get('/srchorgandonor/:id',async(req,res)=>{
+    let id=req.params.id
+    let srchorgandonor = await addorgan.find({hospitalId:id})
+    console.log(srchorgandonor);
+    res.json(srchorgandonor)
+})
+router.get('/vwpagsrchorgandnr/:id',async(req,res)=>{
+    let id=req.params.id
+    let vwpagesrchorgandnr = await addorgan.findById(id)
+    console.log(vwpagesrchorgandnr)
+    res.json(vwpagesrchorgandnr)
+})
+
+
+
+
+
+
+
+
 router.get('/vwcollgreq/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
@@ -264,6 +318,7 @@ router.put('/mngcllgbldrqst/:id',async(req,res)=>{
     console.log(req.body)
     let mngcollg = await collgsendreqst.findByIdAndUpdate(id,req.body)
     console.log(mngcollg);
+    
     
 })
 
