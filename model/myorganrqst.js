@@ -1,5 +1,6 @@
 import mongoose, { Schema,model } from "mongoose";
 import  user  from "./user.js";
+import { addorgan } from "./addorgan.js";
 
 const myorganrqstSchema=Schema({
     userId:{
@@ -33,6 +34,10 @@ const myorganrqstSchema=Schema({
     status:{
         type:String,
         default:'pending'
+    },
+    donorId:{
+        type:mongoose.Types.ObjectId,
+        ref:addorgan
     }
 })
 export const myorganrqst = model('myorganrqst',myorganrqstSchema)
