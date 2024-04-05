@@ -6,6 +6,10 @@ const mybloodhosptlSchema=new Schema({
         type:mongoose.Types.ObjectId,
         ref:user
     },
+    AcceptedId:{
+        type:mongoose.Types.ObjectId,
+        ref:user
+    },
     bloodunit:{
         type:String,
         required:true
@@ -17,6 +21,10 @@ const mybloodhosptlSchema=new Schema({
     status:{
         type:String,
         default:"pending"
+    },
+    date:{
+        type:Date,
+        default:Date.now
     },
 })
 export const mybloodhosptl = model('mybloodhos',mybloodhosptlSchema)

@@ -242,6 +242,7 @@ router.put('/mnghosptlbldrqst/:id',async(req,res)=>{
     console.log(req.body)
     let mnghosptl = await mybloodhosptl.findByIdAndUpdate(id,req.body)
     console.log(mnghosptl);
+    res.json(mnghosptl)
     
 })
 
@@ -334,6 +335,52 @@ router.put('/mngcllgbldrqst/:id',async(req,res)=>{
     
     
 })
+
+
+router.get('/vwblddonordonationhist/:id',async(req,res)=>{
+    try{
+    let id=req.params.id
+    let vwdonordonationhist = await donorsendrqst.find()
+
+    console.log(vwdonordonationhist);
+    let responseData =[];
+for (const newresponse of vwdonordonationhist){
+
+    let blddonors=await user.findById(newresponse.userId)
+    responseData.push({
+        blddonors:blddonors,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+
+}
+catch(e){
+    res.json(e.message)
+}
+})
+
+router.get('/viewhosreceivdbldrqsthist/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwreceivdbldrqst = await mybloodhosptl.find()
+console.log(vwreceivdbldrqst);
+let responseData =[];
+for (const newresponse of vwreceivdbldrqst){
+
+    let hosdetail=await user.findById(newresponse.hospitalId)
+    responseData.push({
+        hosdetail:hosdetail,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+})
+
+
+
 
 
 
