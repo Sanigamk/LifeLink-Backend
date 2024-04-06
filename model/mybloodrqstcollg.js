@@ -23,6 +23,14 @@ const mybloodcollgSchema=Schema({
         type:String,
 
     },
+    date:{
+        type:Date,
+        default:Date.now
+    },
+    status:{
+        type:String,
+        default:"pending"
+    },
     
 })
 export const mybloodcollg = model('mybloodcollg',mybloodcollgSchema)

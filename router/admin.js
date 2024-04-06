@@ -1,6 +1,10 @@
 import express from "express";
 import  user  from "../model/user.js";
 import { upload } from "../multer.js";
+import { donorsendrqst } from "../model/blooddonorsendrqst.js";
+import { collgsendreqst } from "../model/collgsendrqst.js";
+import { myorganrqst } from "../model/myorganrqst.js";
+import { mybloodhosptl } from "../model/mybloodrqsthosptl.js";
 const router=express.Router()
 
 
@@ -177,6 +181,115 @@ router.put('/mngcllg/:id',async(req,res)=>{
     console.log(mngcllg);
     
 })
+router.get('/adminvwblddonordonation/:id',async(req,res)=>{
+    try{
+    let id=req.params.id
+    let vwdonordonation = await donorsendrqst.find()
+
+    console.log(vwdonordonation);
+    let responseData =[];
+for (const newresponse of vwdonordonation){
+
+    let blddonordonation=await user.findById(newresponse.userId)
+    let hoss=await user.findById(newresponse.hospitalId)
+
+    responseData.push({
+        blddonordonation:blddonordonation,
+        hoss:hoss,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+
+}
+catch(e){
+    res.json(e.message)
+}
+})
+
+router.get('/adminvwcllgrequestdonation/:id',async(req,res)=>{
+    try{
+    let id=req.params.id
+    let vwdcllgreq = await collgsendreqst.find()
+
+    console.log(vwdcllgreq);
+    let responseData =[];
+for (const newresponse of vwdcllgreq){
+
+    let cllgdonation=await user.findById(newresponse.userId)
+    let hoss=await user.findById(newresponse.hospitalId)
+
+    responseData.push({
+        cllgdonation:cllgdonation,
+        hoss:hoss,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+
+}
+catch(e){
+    res.json(e.message)
+}
+})
+
+router.get('/adminvwblooddonation/:id',async(req,res)=>{
+    try{
+    let id=req.params.id
+    let vwdbldreq = await mybloodhosptl.find()
+
+    console.log(vwdbldreq);
+    let responseData =[];
+for (const newresponse of vwdbldreq){
+
+    let Accptdhos=await user.findById(newresponse.AcceptedId)
+    let hosptls=await user.findById(newresponse.hospitalId)
+
+    responseData.push({
+        Accptdhos:Accptdhos,
+        hosptls:hosptls,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+
+}
+catch(e){
+    res.json(e.message)
+}
+})
+
+router.get('/adminvworgandonation/:id',async(req,res)=>{
+    try{
+    let id=req.params.id
+    let vwdorganreq = await myorganrqst.find()
+
+    console.log(vwdorganreq);
+    let responseData =[];
+for (const newresponse of vwdorganreq){
+
+    let Accptdhoss=await user.findById(newresponse.AcceptedId)
+    let hoss=await user.findById(newresponse.userId)
+
+    responseData.push({
+        Accptdhoss:Accptdhoss,
+        hoss:hoss,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+
+}
+catch(e){
+    res.json(e.message)
+}
+})
+
+
 
 
 export default router

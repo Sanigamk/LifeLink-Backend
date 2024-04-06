@@ -7,6 +7,10 @@ const myorganrqstSchema=Schema({
        type:mongoose.Types.ObjectId,
        ref:user,
     },
+    AcceptedId:{
+        type:mongoose.Types.ObjectId,
+        ref:user,
+    },
     organ:{
         type:String,
         required:true
@@ -29,6 +33,10 @@ const myorganrqstSchema=Schema({
     bloodgroup:{
         type:String,
         required:true
+    },
+    date:{
+        type:Date,
+        default:Date.now
     },
     
     status:{

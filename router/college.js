@@ -47,7 +47,7 @@ router.get('/hosdistrict/:id',async(req,res)=>{
 router.get('/vwhosreq/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
-    let vwhosreq=await mybloodcollg.find()
+    let vwhosreq=await mybloodcollg.find({collegeId:id})
     console.log(vwhosreq)
     let responseData=[];
     for(const newresponse of vwhosreq){
@@ -59,6 +59,15 @@ router.get('/vwhosreq/:id',async(req,res)=>{
     } 
     console.log(responseData)
     res.json(responseData)
+})
+router.put('/mnghosbldrqst/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    console.log(req.body)
+    let mnghosreq= await mybloodcollg.findByIdAndUpdate(id,req.body)
+    console.log(mnghosreq);
+    
+    
 })
 
 

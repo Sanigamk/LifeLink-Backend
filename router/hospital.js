@@ -134,28 +134,30 @@ router.get('/vwpagehosbldrqst/:id',async(req,res)=>{
     res.json(vwpagehosbldrqst)
 })
 
-router.get('/get/sendlist/:id',async(req,res)=>{
-    let id=req.params.id
-    // let vwsendbloodhist = await mybloodhosptl.find({hospitalId:new mongoose.Types.ObjectId(id)})
-    let vwsendbloodhist = await mybloodhosptl.aggregate([
-        {
-            $match:{'hospitalId':new mongoose.Types.ObjectId(id)}
-        },
-        {
-            $lookup:{
-                from:"users",
-                localField:"hospitalId",
-                foreignField:"_id",
-                as:"hospitalInfo"
-            },  
-        },
-        {
-            $unwind:"$hospitalInfo"
-        }
-    ])
-    console.log(vwsendbloodhist);
-    res.json(vwsendbloodhist)
-})
+// router.get('/get/sendlist/:id',async(req,res)=>{
+//     let id=req.params.id
+//     // let vwsendbloodhist = await mybloodhosptl.find({hospitalId:new mongoose.Types.ObjectId(id)})
+//     let vwsendbloodhist = await mybloodhosptl.aggregate([
+//         {
+//             $match:{'AcceptedId':new mongoose.Types.ObjectId(id)}
+//         },
+//         {
+//             $lookup:{
+//                 from:"users",
+//                 localField:"AcceptedId",
+//                 foreignField:"_id",
+//                 as:"acceptedhospitalInfo"
+//             },  
+//         },
+//         {
+//             $unwind:"$acceptedhospitalInfo"
+//         }
+//     ])
+//     console.log(vwsendbloodhist);
+//     res.json(vwsendbloodhist)
+
+// })
+
 
 
 
@@ -340,7 +342,7 @@ router.put('/mngcllgbldrqst/:id',async(req,res)=>{
 router.get('/vwblddonordonationhist/:id',async(req,res)=>{
     try{
     let id=req.params.id
-    let vwdonordonationhist = await donorsendrqst.find()
+    let vwdonordonationhist = await donorsendrqst.find({hospitalId:id})
 
     console.log(vwdonordonationhist);
     let responseData =[];
@@ -364,7 +366,7 @@ catch(e){
 router.get('/viewhosreceivdbldrqsthist/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
-    let vwreceivdbldrqst = await mybloodhosptl.find()
+    let vwreceivdbldrqst = await mybloodhosptl.find({hospitalId:id})
 console.log(vwreceivdbldrqst);
 let responseData =[];
 for (const newresponse of vwreceivdbldrqst){
@@ -372,6 +374,44 @@ for (const newresponse of vwreceivdbldrqst){
     let hosdetail=await user.findById(newresponse.hospitalId)
     responseData.push({
         hosdetail:hosdetail,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+})
+
+router.get('/viewhossendbldrqsthist/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwsendbldrqst = await mybloodhosptl.find({hospitalId:id})
+console.log(vwsendbldrqst);
+let responseData =[];
+for (const newresponse of vwsendbldrqst){
+
+    // let hosdetail=await user.findById(newresponse.hospitalId)
+    let acc=await user.findById(newresponse.AcceptedId)
+    responseData.push({
+          acc:acc,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+})
+
+router.get('/viewhossendbldrqstcollghist/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwsendcllgbldrqst = await mybloodcollg.find({userId:id})
+console.log(vwsendcllgbldrqst);
+let responseData =[];
+for (const newresponse of vwsendcllgbldrqst){
+
+    // let hosdetail=await user.findById(newresponse.hospitalId)
+    let cllg=await user.findById(newresponse.collegeId)
+    responseData.push({
+        cllg:cllg,
         req:newresponse
     });
 }
