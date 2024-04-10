@@ -1,81 +1,139 @@
-import { mongoose, Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 import user from "./user.js";
 
-const organdonorSchema=Schema({
-
- hospitalId:{
-        type:mongoose.Types.ObjectId,
-        ref:user
+const organdonorSchema = Schema({
+    hospitalId: {
+        type: Schema.Types.ObjectId,
+        ref: user
     },
+    name: {
+        type: String,
+    },
+    age: {
+        type: Number
+    },
+    ddress: {
+        type: String,
+    },
+    email:{
+        type:String,
+    },
+    adhaarnumber: {
+        type: String,
+    },
+    conformationcertificate: {
+        type: String,
+    },
+    healthcertificate: {
+        type: String,
+    },
+    bloodgroup: {
+        type: String,
+    },
+    height: {
+        type: String,
+    },
+    weight: {
+        type: String,
+    },
+    healthissue: {
+        type: String,
+    },
+    reasonofdeath: {
+        type: String,
+    },
+    dateofbirth: {
+        type: Date
+    },
+    dateofdeath: {
+        type: Date
+    },
+    contact:{
+        type:String,
+    },
+    signature:{
+        type:String,
+    },
+    nominie: {
+        type: String,
+    },
+    nominiecontact: {
+        type: Number,
+    },
+    nominierelation: {
+        type: String,
+    },
+    password: {
+        type: String,
+    },
+    Conformpassword: {
+        type: String,
+    },
+    organsBeforeDeath: {
+        heart: {
+            type: Boolean,
+            default: false
+        },
+        liver: {
+            type: Boolean,
+            default: false
+        },
+        kidney: {
+            type: Boolean,
+            default: false
+        },
+        lung: {
+            type: Boolean,
+            default: false
+        },
+        pancreas: {
+            type: Boolean,
+            default: false
+        }
+    },
+    organsAfterDeath: {
+        heart: {
+            type: Boolean,
+            default: false
+        },
+        liver: {
+            type: Boolean,
+            default: false
+        },
+        kidney: {
+            type: Boolean,
+            default: false
+        },
+        lung: {
+            type: Boolean,
+            default: false
+        },
+        pancreas: {
+            type: Boolean,
+            default: false
+        },
+        cornea: {
+            type: Boolean,
+            default: false
+        },
+        skin: {
+            type: Boolean,
+            default: false
+        },
+        bone: {
+            type: Boolean,
+            default: false
+        },
+        tissue: {
+            type: Boolean,
+            default: false
+        }
+    },
+    status: {
+        type: String,
+        default: "pending"
+    },
+});
 
-name:{
-    type:String,
-},
-age:{
-    type:Number
-},
-place:{
-    type:String
-},
-Address:{
-    type:String,
-},  
-adhaarnumber:{
-    type:String,
-},
-conformationcerti:{
-    type:String,
-},
-healthcerti:{
-    type:String,
-},
-Bloodgroup:{
-    type:String,
-},
-height:{
-    type:String,
-},
-weight:{
-    type:String,
-},
-healthissue:{
-    type:String,
-},
-reasonofdeath:{
-    type:String,
-},
-dateofbirth:{
-    type:Date
-},
-dateofdeath:{
-    type:Date
-},
-reasonofdeath:{
-    type:String,
-},
-nominee:{
-    type:String,
-},
-nomineecontact:{
-      type:Number,
-},
-nomineerelation:{
-    type:String,
-},
-password:{
-    type:String,
-},
-Conformpassword:{
-    type:String,
-},
-organ:[{
-type:String
-}],
-status:{
-    type:String,
-    default:"pending"
-},
-
-})
-const organdonor =mongoose.model('organdonor',organdonorSchema)
-export default organdonor
+const organdonor = model('organdonor', organdonorSchema);
+export default organdonor;

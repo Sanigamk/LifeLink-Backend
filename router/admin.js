@@ -5,6 +5,7 @@ import { donorsendrqst } from "../model/blooddonorsendrqst.js";
 import { collgsendreqst } from "../model/collgsendrqst.js";
 import { myorganrqst } from "../model/myorganrqst.js";
 import { mybloodhosptl } from "../model/mybloodrqsthosptl.js";
+import organdonor from "../model/organdonors.js";
 const router=express.Router()
 
 
@@ -287,6 +288,47 @@ res.json(responseData)
 catch(e){
     res.json(e.message)
 }
+})
+
+
+router.get('/vieworgandonors',async (req,res)=>{
+    let organdnr = await organdonor.find()
+console.log(organdnr);
+res.json(organdnr)
+
+})
+
+
+router.get('/managorgandonor/:id',async(req,res)=>{
+    try{
+    let id=req.params.id
+    let managorgan = await organdonor.find()
+
+    console.log(managorgan);
+    let responseData =[];
+for (const newresponse of managorgan){
+
+    let hospital=await user.findById(newresponse.hospitalId)
+    responseData.push({
+        hospital:hospital,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+
+}
+catch(e){
+    res.json(e.message)
+}
+})
+router.put('/mngorgandnr/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    console.log(req.body)
+    let mngorgn = await user.findByIdAndUpdate(id,req.body)
+    console.log(mngorgn);
+    
 })
 
 
