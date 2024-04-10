@@ -6,6 +6,7 @@ import hospitalRouter from "./router/hospital.js"
 import collegeRouter from "./router/college.js"
 import usersRouter from "./router/users.js"
 import donorRouter from "./router/blooddonor.js"
+import organRouter from './model/organdonors.js';
 import cors from 'cors'
 const app = express();
 app.use('/uploads', express.static('uploads'));
@@ -22,6 +23,7 @@ app.use('/hospital',hospitalRouter)
 app.use('/college',collegeRouter)
 app.use('/users',usersRouter)
 app.use('/blooddonor',donorRouter)
+app.use('/organdonor',organRouter)
 
 
 

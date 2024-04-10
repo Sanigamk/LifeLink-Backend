@@ -65,7 +65,7 @@ router.put('/mnghosbldrqst/:id',async(req,res)=>{
     console.log(id);
     console.log(req.body)
     let mnghosreq= await mybloodcollg.findByIdAndUpdate(id,req.body)
-    console.log(mnghosreq);
+    res.json(mnghosreq)
     
     
 })
