@@ -302,22 +302,15 @@ res.json(organdnr)
 router.get('/managorgandonor/:id',async(req,res)=>{
     try{
     let id=req.params.id
-    let managorgan = await organdonor.find()
+    let managorgan = await organdonor.findById(id)
 
     console.log(managorgan);
-    let responseData =[];
-for (const newresponse of managorgan){
 
-    let hospital=await user.findById(newresponse.hospitalId)
-    responseData.push({
-        hospital:hospital,
-        req:newresponse
-    });
+    let hospital=await user.findById(managorgan.hospitalId)
+    res.json({managorgan,hospital})
+  
 }
-console.log(responseData)
-res.json(responseData)
 
-}
 catch(e){
     res.json(e.message)
 }
@@ -326,7 +319,7 @@ router.put('/mngorgandnr/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
     console.log(req.body)
-    let mngorgn = await user.findByIdAndUpdate(id,req.body)
+    let mngorgn = await organdonor.findByIdAndUpdate(id,req.body)
     console.log(mngorgn);
     
 })

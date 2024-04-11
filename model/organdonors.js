@@ -12,7 +12,7 @@ const organdonorSchema = Schema({
     age: {
         type: Number
     },
-    ddress: {
+    address: {
         type: String,
     },
     email:{

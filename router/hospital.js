@@ -8,6 +8,8 @@ import mongoose from "mongoose";
 import user from "../model/user.js";
 import { collgsendreqst } from "../model/collgsendrqst.js";
 import { donorsendrqst } from "../model/blooddonorsendrqst.js";
+import organdonor from "../model/organdonors.js";
+import { hossendrequesttoorgandonor } from "../model/hospitalsendrqsttoorgandonors.js";
 const router= express.Router()
 
 router.post('/addorgan',upload.fields([{name:"healthcertificate"},{name:"conformationcertificate"}]),async (req,res)=>{
@@ -94,16 +96,28 @@ router.post('/myorganrqst',upload.fields([{name:"healthcertificate"}]),async(req
 
 router.get('/vworgandonor/:id',async(req,res)=>{
     let id=req.params.id
-    let vworgandonor = await addorgan.find({hospitalId:id,status:"pending"})
+    let vworgandonor = await organdonor.find({hospitalId:id,status:"Accepted"})
     console.log(vworgandonor);
     res.json(vworgandonor)
 })
 router.get('/vwpageorgandnr/:id',async(req,res)=>{
         let id=req.params.id
-        let vwpageorgandnr = await addorgan.findById(id)
+        let vwpageorgandnr = await organdonor.findById(id)      
         console.log(vwpageorgandnr)
         res.json(vwpageorgandnr)
 })
+router.post('/hossendrqsttoorgandonor',async(req,res)=>{
+    console.log(req.body);
+    const newhossendorgandnr = new hossendrequesttoorgandonor(req.body)
+    const savedhossendorgandnr = await newhossendorgandnr.save()
+    res.json({message:savedhossendorgandnr})
+})
+
+
+
+
+
+
 router.put('/editorgandnr/:id',upload.fields([{name:"healthcertificate"},{name:'conformationcertificate'}]),async(req,res)=>{
     try{
         if(req.files['healthcertificate']){
