@@ -77,11 +77,15 @@ catch(e){
 
 
 
-router.post('/myorganrqst',upload.fields([{name:"healthcertificate"}]),async(req,res)=>{
+router.post('/myorganrqst',upload.fields([{name:"healthcertificate"},{name:"prescription"}]),async(req,res)=>{
     console.log(req.body);
     if(req.files['healthcertificate']){
         let healthcertificate=req.files['healthcertificate'][0].filename
         req.body={...req.body,healthcertificate:healthcertificate}
+    }
+    if(req.files['prescription']){
+        let prescription=req.files['prescription'][0].filename
+        req.body={...req.body,prescription:prescription}
     }
     const newMyorganrqst = new myorganrqst(req.body)
     const savedMyorganrqst= await newMyorganrqst.save()
@@ -293,29 +297,25 @@ router.get('/mnghosorganrqst/:id',async (req,res)=>{
     let hosptl=await user.findById(mnghosorganreq.userId)
     res.json({mnghosorganreq,hosptl})
 })
-router.get('/srchorgandonor/:id',async(req,res)=>{
+router.get('/vworgandonors/:id',async(req,res)=>{
+    let id=req.params.id
+    let vworgandonors = await organdonor.find({hospitalId:id,status:"Accepted"})
+    console.log(vworgandonors);
+    res.json(vworgandonors)
+})
+router.get('/vwpageorgandnr/:id',async(req,res)=>{
+    let id=req.params.id
+    let vwpageorgandonor = await organdonor.findById(id)      
+    console.log(vwpageorgandonor)
+    res.json(vwpageorgandonor)
+})
+router.post('/sendrequestorgandonor',async(req,res)=>{
 
-    let id=req.params.id
-    let srchorgandonor = await addorgan.find({hospitalId:id,status:'pending'})
-    console.log(srchorgandonor);
-    res.json(srchorgandonor)
-})
-router.get('/vwpagsrchorgandnr/:id',async(req,res)=>{
-    let id=req.params.id
-    let vwpagesrchorgandnr = await addorgan.findById(id)
-    console.log(vwpagesrchorgandnr)
-    res.json(vwpagesrchorgandnr)
-})
-router.put('/assignorgan/:id',async(req,res)=>{
-    let id=req.params.id
-    console.log(id);
     console.log(req.body)
-    let assignorgan = await myorganrqst.findByIdAndUpdate(id,req.body)
-    let assignorganss=await myorganrqst.findById(id)
-    let organdonor = await addorgan.findByIdAndUpdate(assignorganss.donorId,{status:"ASSIGNED"}) 
+    const newSendrequest = new hossendrequesttoorgandonor(req.body)
+    const savedSendrequest = await newSendrequest.save() 
     
-    console.log(assignorgan);
-    res.json({assignorgan,organdonor})
+    res.json({message:"idadded",savedSendrequest})
     
 })
 

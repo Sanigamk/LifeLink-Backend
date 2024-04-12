@@ -1,6 +1,7 @@
 import mongoose, { Schema,model } from "mongoose";
 import user from "./user.js";
 import organdonor from "./organdonors.js";
+import { myorganrqst } from "./myorganrqst.js";
 
 
 const hossendrequesttoorgandonorsSchema=Schema({
@@ -13,6 +14,10 @@ const hossendrequesttoorgandonorsSchema=Schema({
         type:mongoose.Types.ObjectId,
         ref:organdonor
         
+    },
+    requestId:{
+        type:mongoose.Types.ObjectId,
+        ref:myorganrqst
     },
     patientname:{
         type:String,

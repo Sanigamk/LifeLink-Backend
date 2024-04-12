@@ -24,13 +24,41 @@ const myorganrqstSchema=Schema({
         type:Number,
         required:true
     },
+    address:{
+        type:String,
+        required:true
+    },
     healthcertificate:{
+        type:String,
+        required:true
+    },
+    adhaarnumber:{
+        type:String,
+        required:true
+    },
+    email:{
         type:String,
         required:true
     },
     
     
     bloodgroup:{
+        type:String,
+        required:true
+    },
+    doctername:{
+        type:String,
+        required:true
+    },
+    prescription:{
+        type:String,
+        required:true
+    },
+    bystander:{
+        type:String,
+        required:true
+    },
+    bystandercontact:{
         type:String,
         required:true
     },
