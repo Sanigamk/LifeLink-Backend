@@ -35,6 +35,13 @@ router.post('/register',upload.fields([{name:'certificate'},{name:'healthcertifi
     }
 })
 
+router.post('/api/auth/authenticate',async (req,res)=>{
+    console.log(req.body);
+    let response=await  user.findOne(req.body)
+    console.log(response);
+    res.json(response)
+})
+
 router.get('/vwdonorprofile/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
@@ -59,33 +66,33 @@ router.get('/vwcollgprofile/:id',async (req,res)=>{
     console.log(response);
     res.json(response)
 })
-router.put('/editdonorprofile/:id',upload.fields([{name:'certificate'},{name:'healthcertificate'},{name:'proof'},{name:'conformationcertificate'}]),async(req,res)=>{
-    try{
-        if(req.files['healthcertificate']){
-            let certificate=req.files['healthcertificate'][0].filename
-            req.body={...req.body,healthcertificate:certificate}
-        }
-        if(req.files['certificate']){
-            let certificate1=req.files['certificate'][0].filename
-            req.body={...req.body,certificate:certificate1}
-        }
-        if(req.files['proof']){
-            let certificate2=req.files['proof'][0].filename
-            req.body={...req.body,proof:certificate2}
-        }
-        if(req.files['conformationcertificate']){
-            let conformationcertificate=req.files['conformationcertificate'][0].filename
-            req.body={...req.body,conformationcertificate:conformationcertificate}
-        }
-    let id=req.params.id
-    console.log(req.body);
-    let response = await user.findByIdAndUpdate(id,req.body)
-    console.log(response);
-}
-catch(e){
-    res.json(e.message)
-}
-})
+// router.put('/editdonorprofile/:id',upload.fields([{name:'certificate'},{name:'healthcertificate'},{name:'proof'},{name:'conformationcertificate'}]),async(req,res)=>{
+//     try{
+//         if(req.files['healthcertificate']){
+//             let certificate=req.files['healthcertificate'][0].filename
+//             req.body={...req.body,healthcertificate:certificate}
+//         }
+//         if(req.files['certificate']){
+//             let certificate1=req.files['certificate'][0].filename
+//             req.body={...req.body,certificate:certificate1}
+//         }
+//         if(req.files['proof']){
+//             let certificate2=req.files['proof'][0].filename
+//             req.body={...req.body,proof:certificate2}
+//         }
+//         if(req.files['conformationcertificate']){
+//             let conformationcertificate=req.files['conformationcertificate'][0].filename
+//             req.body={...req.body,conformationcertificate:conformationcertificate}
+//         }
+//     let id=req.params.id
+//     console.log(req.body);
+//     let response = await user.findByIdAndUpdate(id,req.body)
+//     console.log(response);
+// }
+// catch(e){
+//     res.json(e.message)
+// }
+// })
 
 router.post('/login',async(req,res)=>{
     console.log(req.body);

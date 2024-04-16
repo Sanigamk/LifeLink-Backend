@@ -1,6 +1,7 @@
 import mongoose, { Schema,model } from "mongoose";
 import  user  from "./user.js";
 import { addorgan } from "./addorgan.js";
+import organdonor from "./organdonors.js";
 
 const myorganrqstSchema=Schema({
     userId:{
@@ -15,7 +16,6 @@ const myorganrqstSchema=Schema({
         type:String,
         required:true
     },
-   
     patientname:{
         type:String,
         required:true
@@ -37,6 +37,10 @@ const myorganrqstSchema=Schema({
         required:true
     },
     email:{
+        type:String,
+        required:true
+    },
+    patientidproof:{
         type:String,
         required:true
     },
@@ -73,7 +77,7 @@ const myorganrqstSchema=Schema({
     },
     donorId:{
         type:mongoose.Types.ObjectId,
-        ref:addorgan
+        ref:organdonor
     }
 })
 export const myorganrqst = model('myorganrqst',myorganrqstSchema)

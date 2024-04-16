@@ -1,6 +1,7 @@
 import express  from "express";
 import { donorsendrqst } from "../model/blooddonorsendrqst.js";
 import user from "../model/user.js";
+import { usersendrqst } from "../model/usersendbloodrqst.js";
 
 const router = express.Router()
 
@@ -17,5 +18,43 @@ router.get('/vwhosdetail',async(req,res)=>{
     console.log(vwhosdetail);
     res.json(vwhosdetail)
 })
+
+router.get('/viewblddonationhist/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwsendbldrqst = await donorsendrqst.find({userId:id})
+console.log(vwsendbldrqst);
+let responseData =[];
+for (const newresponse of vwsendbldrqst){
+
+    // let hosdetail=await user.findById(newresponse.hospitalId)
+    let ho=await user.findById(newresponse.hospitalId)
+    responseData.push({
+          ho:ho,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+})
+
+
+router.get('/vwuserreqhist/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwuserreqhist= await usersendrqst.find({acceptedId:id});
+    console.log(vwuserreqhist)
+    let responseData=[];
+    for(const newresponse of vwuserreqhist){
+        let users = await user.findById(newresponse.userId);
+        responseData.push({
+            user:users,
+            req:newresponse
+        })
+    } 
+    console.log(responseData)
+    res.json(responseData)
+})
+
 
 export default router

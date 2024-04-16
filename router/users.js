@@ -38,4 +38,20 @@ router.put('/updatepro/:id',async(req,res)=>{
     }
     
 })
+
+
+router.get('/vwuseraccptdreqhist/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwuserreqhist= await usersendrqst.findById(id);
+    console.log(vwuserreqhist)
+    console.log(vwuserreqhist.acceptedId,'ii');
+        let users = await user.findById(vwuserreqhist.acceptedId); 
+        console.log(users,'ooo');
+    console.log({vwuserreqhist,users})
+    res.json({vwuserreqhist,users})
+})
+
+
+
 export default router

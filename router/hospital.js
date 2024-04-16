@@ -10,6 +10,7 @@ import { collgsendreqst } from "../model/collgsendrqst.js";
 import { donorsendrqst } from "../model/blooddonorsendrqst.js";
 import organdonor from "../model/organdonors.js";
 import { hossendrequesttoorgandonor } from "../model/hospitalsendrqsttoorgandonors.js";
+import { usersendrqst } from "../model/usersendbloodrqst.js";
 const router= express.Router()
 
 router.post('/addorgan',upload.fields([{name:"healthcertificate"},{name:"conformationcertificate"}]),async (req,res)=>{
@@ -77,7 +78,7 @@ catch(e){
 
 
 
-router.post('/myorganrqst',upload.fields([{name:"healthcertificate"},{name:"prescription"}]),async(req,res)=>{
+router.post('/myorganrqst',upload.fields([{name:"healthcertificate"},{name:"prescription"},{name:"patientidproof"}]),async(req,res)=>{
     console.log(req.body);
     if(req.files['healthcertificate']){
         let healthcertificate=req.files['healthcertificate'][0].filename
@@ -87,6 +88,11 @@ router.post('/myorganrqst',upload.fields([{name:"healthcertificate"},{name:"pres
         let prescription=req.files['prescription'][0].filename
         req.body={...req.body,prescription:prescription}
     }
+    if(req.files['patientidproof']){
+        let patientidproof=req.files['patientidproof'][0].filename
+        req.body={...req.body,patientidproof:patientidproof}
+    }
+    console.log(req.body,'jhgjhgjhg');
     const newMyorganrqst = new myorganrqst(req.body)
     const savedMyorganrqst= await newMyorganrqst.save()
     res.json({message:savedMyorganrqst})
@@ -353,6 +359,42 @@ router.put('/mngcllgbldrqst/:id',async(req,res)=>{
 })
 
 
+
+
+
+router.get('/vwuserreq',async(req,res)=>{
+    // let id=req.params.id
+    // console.log(id);
+    let vwuserreq= await usersendrqst.find({status:"pending"});
+    console.log(vwuserreq)
+    let responseData=[];
+    for(const newresponse of vwuserreq){
+        let users = await user.findById(newresponse.userId);
+        responseData.push({
+            user:users,
+            req:newresponse
+        })
+    } 
+    console.log(responseData)
+    res.json(responseData)
+})
+router.put('/mnguserbldrqst/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    console.log(req.body)
+    let mngusersendrqst = await usersendrqst.findByIdAndUpdate(id,req.body)
+    console.log(mngusersendrqst);
+    
+    
+})
+
+
+
+
+
+
+
+
 router.get('/vwblddonordonationhist/:id',async(req,res)=>{
     try{
     let id=req.params.id
@@ -426,6 +468,25 @@ for (const newresponse of vwsendcllgbldrqst){
     let cllg=await user.findById(newresponse.collegeId)
     responseData.push({
         cllg:cllg,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+})
+
+
+router.get('/viewhosreceivdorganrqsthist/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwreceivdorganrqst = await myorganrqst.find({userId:id,status:'ASSIGNED'})
+console.log(vwreceivdorganrqst);
+let responseData =[];
+for (const newresponse of vwreceivdorganrqst){
+
+    let hosdetail=await user.findById(newresponse.userId)
+    responseData.push({
+        hosdetail:hosdetail,
         req:newresponse
     });
 }

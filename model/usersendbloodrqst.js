@@ -6,6 +6,10 @@ const usersendrqstSchema=Schema({
         type:mongoose.Types.ObjectId,
         ref:user
     },
+    acceptedId:{
+        type:mongoose.Types.ObjectId,
+        ref:user
+    },
     hospitalname:{
         type:String,
         required:true

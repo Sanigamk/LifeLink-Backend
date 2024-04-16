@@ -54,6 +54,9 @@ const organdonorSchema = Schema({
     signature:{
         type:String,
     },
+    time:{
+        type:String,
+    },
     nominie: {
         type: String,
     },
@@ -62,6 +65,9 @@ const organdonorSchema = Schema({
     },
     nominierelation: {
         type: String,
+    },
+    nominiepassword:{
+        type:String,
     },
     password: {
         type: String,
