@@ -25,6 +25,10 @@ router.post('/register',upload.fields([{name:'certificate'},{name:'healthcertifi
             let certificate2=req.files['proof'][0].filename
             req.body={...req.body,proof:certificate2}
         }
+        const existMail=await user.findOne({email:req.body.email})
+        if(existMail){
+            return res.status(400).json({message:'mail exist'})
+        }
         console.log(req.body);
         const newUser= new user(req.body)
         const savedUser = await newUser.save()

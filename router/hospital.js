@@ -220,9 +220,9 @@ router.get('/vwpageblddonation/:id',async(req,res)=>{
 })
 router.put('/mngblddonordonationreq/:id',async(req,res)=>{
     let id=req.params.id
-    console.log(id,'jhghfc');
+    console.log(id);
     console.log(req.body)
-    let mngblddonationreq = await user.findByIdAndUpdate(id,req.body,{ new: true })
+    let mngblddonationreq = await donorsendrqst.findByIdAndUpdate(id,req.body,{ new: true })
     console.log(mngblddonationreq);
     res.json(mngblddonationreq)
 })
@@ -239,7 +239,7 @@ router.put('/mngblddonordonationreq/:id',async(req,res)=>{
 router.get('/viewhosbldrqst/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
-    let vwbldrqst = await mybloodhosptl.find()
+    let vwbldrqst = await mybloodhosptl.find({ hospitalId: { $ne: id } });
 console.log(vwbldrqst);
 let responseData =[];
 for (const newresponse of vwbldrqst){
@@ -282,7 +282,8 @@ router.put('/mnghosptlbldrqst/:id',async(req,res)=>{
 router.get('/viewhosorganrqst/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
-    let vworgnrqst = await myorganrqst.find()
+    let vworgnrqst = await myorganrqst.find({ userId: { $ne: id } });
+
 console.log(vworgnrqst);
 let responseData =[];
 for (const newresponse of vworgnrqst){
@@ -303,12 +304,28 @@ router.get('/mnghosorganrqst/:id',async (req,res)=>{
     let hosptl=await user.findById(mnghosorganreq.userId)
     res.json({mnghosorganreq,hosptl})
 })
-router.get('/vworgandonors/:id',async(req,res)=>{
-    let id=req.params.id
-    let vworgandonors = await organdonor.find({hospitalId:id,status:"Accepted"})
-    console.log(vworgandonors);
-    res.json(vworgandonors)
-})
+router.get('/vworgandonors/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { organ, bloodGroup } = req.query;
+
+        let filter = { hospitalId: id, status: "Accepted" };
+
+        if (organ) {
+            filter[`organsAfterDeath.${organ.toLowerCase()}`] = true;
+        }
+        if (bloodGroup) {
+            filter.bloodgroup = bloodGroup;
+        }
+
+        let vworgandonors = await organdonor.find(filter);
+        res.json(vworgandonors);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+    
 router.get('/vwpageorgandnr/:id',async(req,res)=>{
     let id=req.params.id
     let vwpageorgandonor = await organdonor.findById(id)      
@@ -422,7 +439,7 @@ catch(e){
 router.get('/viewhosreceivdbldrqsthist/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
-    let vwreceivdbldrqst = await mybloodhosptl.find({hospitalId:id})
+    let vwreceivdbldrqst = await mybloodhosptl.find({AcceptedId:id})
 console.log(vwreceivdbldrqst);
 let responseData =[];
 for (const newresponse of vwreceivdbldrqst){
@@ -476,6 +493,51 @@ res.json(responseData)
 })
 
 
+
+
+
+
+
+router.get('/viewhossendorganrqsthist/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwsendorganrqst = await hossendrequesttoorgandonor.find({hospitalId:id})
+console.log(vwsendorganrqst);
+let responseData =[];
+for (const newresponse of vwsendorganrqst){
+
+    // let hosdetail=await user.findById(newresponse.hospitalId)
+    let orgn=await organdonor.findById(newresponse.organdonorId)
+    if(req){
+        
+        let req=await myorganrqst.findById(newresponse.requestId)
+      
+        let hospp=await user.findById(orgn?.hospitalId)
+        
+        responseData.push({
+            orgn:orgn,
+            hospp:hospp,
+            req:newresponse,
+            requests:req
+            
+        });
+    }
+    else{
+        let hospp=await user.findById(orgn?.hospitalId)
+        
+        responseData.push({
+            orgn:orgn,
+            hospp:hospp,
+            req:newresponse,
+            
+        });
+    }
+}
+console.log(responseData)
+res.json(responseData)
+})
+
+
 router.get('/viewhosreceivdorganrqsthist/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
@@ -493,6 +555,18 @@ for (const newresponse of vwreceivdorganrqst){
 console.log(responseData)
 res.json(responseData)
 })
+
+
+
+
+router.get('/vworgansearchdetail',async(req,res)=>{
+    console.log(req.body)
+    let vworgandetail = await organdonor.find({userType:'organdonor'})
+    console.log(vworgandetail);
+    res.json(vworgandetail)
+})
+
+
 
 
 

@@ -99,8 +99,14 @@ router.put('/mnghosptlorganrqst/:id',async(req,res)=>{
     console.log(id);
     console.log(req.body)
     let mnghosptlorganrqst = await hossendrequesttoorgandonor.findByIdAndUpdate(id,req.body)
-    console.log(mnghosptlorganrqst);
-    res.json(mnghosptlorganrqst)
+    let rqst=await hossendrequesttoorgandonor.findById(id)
+    if(rqst){
+
+        let rqstUpdate=await myorganrqst.findByIdAndUpdate(rqst?.requestId,req.body)
+        console.log(rqstUpdate,'==========================');
+    }
+        console.log(mnghosptlorganrqst);
+        res.json(mnghosptlorganrqst)
     
 })
 
@@ -163,6 +169,14 @@ router.put('/editdonorprofile/:id',upload.fields([{name:'certificate'},{name:'he
 catch(e){
     res.json(e.message)
 }
+})
+
+
+router.post('/authenticate',async (req,res)=>{
+    console.log(req.body);
+    let response=await  organdonor.findOne(req.body)
+    console.log(response);
+    res.json(response)
 })
 
 

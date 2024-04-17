@@ -27,6 +27,7 @@ const userSchema=Schema({
     },
     email:{
         type:String,
+        unique:true
         
     },
     housename:{

@@ -51,7 +51,12 @@ router.get('/vwuseraccptdreqhist/:id',async(req,res)=>{
     console.log({vwuserreqhist,users})
     res.json({vwuserreqhist,users})
 })
-
+router.post('/authenticate',async (req,res)=>{
+    console.log(req.body);
+    let response=await  user.findOne(req.body)
+    console.log(response);
+    res.json(response)
+})
 
 
 export default router

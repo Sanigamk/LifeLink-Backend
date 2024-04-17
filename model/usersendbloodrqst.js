@@ -9,7 +9,7 @@ const usersendrqstSchema=Schema({
     acceptedId:{
         type:mongoose.Types.ObjectId,
         ref:user
-    },
+    },  
     hospitalname:{
         type:String,
         required:true
