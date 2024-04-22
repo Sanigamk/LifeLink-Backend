@@ -97,6 +97,25 @@ router.post('/myorganrqst',upload.fields([{name:"healthcertificate"},{name:"pres
     const savedMyorganrqst= await newMyorganrqst.save()
     res.json({message:savedMyorganrqst})
 })
+router.get('/viewmyorgannrqststatus/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwsendorganrqststatus = await myorganrqst.find({userId:id})
+console.log(vwsendorganrqststatus,'------------------------');
+let responseData =[];
+for (const newresponse of vwsendorganrqststatus){
+
+    // let hosdetail=await user.findById(newresponse.hospitalId)
+    let acc=await user.findById(newresponse.AcceptedId)
+    responseData.push({
+          acc:acc,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+})
+
 
 
 
@@ -128,6 +147,9 @@ router.post('/hossendrqsttoorgandonor',async(req,res)=>{
 
 
 
+
+
+
 router.put('/editorgandnr/:id',upload.fields([{name:"healthcertificate"},{name:'conformationcertificate'}]),async(req,res)=>{
     try{
         if(req.files['healthcertificate']){
@@ -147,6 +169,7 @@ catch(e){
     res.json(e.message)
 }
 })
+
 
 
 

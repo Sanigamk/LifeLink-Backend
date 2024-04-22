@@ -6,6 +6,7 @@ import { collgsendreqst } from "../model/collgsendrqst.js";
 import { myorganrqst } from "../model/myorganrqst.js";
 import { mybloodhosptl } from "../model/mybloodrqsthosptl.js";
 import organdonor from "../model/organdonors.js";
+import category from "../model/addcategory.js";
 const router=express.Router()
 
 
@@ -97,6 +98,23 @@ router.get('/vwcollgprofile/:id',async (req,res)=>{
 //     res.json(e.message)
 // }
 // })
+router.post('/addcategory',async(req,res)=>{
+    console.log(req.body);
+    const newaddcategory = new category(req.body)
+    const savedaddcategory = await newaddcategory.save()
+    res.json({message:savedaddcategory})
+})
+router.get('/viewcategory',async (req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let response=await category.find()
+    console.log(response);
+    res.json(response)
+})
+
+
+
+
 
 router.post('/login',async(req,res)=>{
     console.log(req.body);

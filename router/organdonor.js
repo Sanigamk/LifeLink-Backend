@@ -4,6 +4,7 @@ import { upload } from "../multer.js";
 import user from "../model/user.js";
 import { hossendrequesttoorgandonor } from "../model/hospitalsendrqsttoorgandonors.js";
 import { myorganrqst } from "../model/myorganrqst.js";
+import category from "../model/addcategory.js";
 const router=express.Router()
 
 
@@ -35,6 +36,14 @@ router.post('/registers', upload.fields([{ name: 'conformationcertificate' }, { 
         res.json({ message: savedorgan });
  
 });
+
+router.get('/viewcategory',async (req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let response=await category.find()
+    console.log(response);
+    res.json(response)
+})
 
 
 router.get('/hosdistrict/:id',async(req,res)=>{

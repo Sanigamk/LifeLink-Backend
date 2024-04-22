@@ -21,6 +21,9 @@ const organdonorSchema = Schema({
     adhaarnumber: {
         type: String,
     },
+    gender:{
+        type: String,
+    },
     conformationcertificate: {
         type: String,
     },
