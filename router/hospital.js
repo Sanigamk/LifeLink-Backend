@@ -115,6 +115,23 @@ for (const newresponse of vwsendorganrqststatus){
 console.log(responseData)
 res.json(responseData)
 })
+router.get('/viewmyorgannrqststatusviewpage/:id',async(req,res)=>{
+    try{
+    let id=req.params.id
+    console.log(id);
+    let vwsendorganrqstpage = await myorganrqst.findById(id)
+console.log(vwsendorganrqstpage,'------------------------');
+let accid= await organdonor.findById(vwsendorganrqstpage?.AcceptedId)
+let hosp= await user.findById(accid?.hospitalId)
+res.json({accid,hosp,vwsendorganrqstpage})
+    }
+    catch(e){
+        res.json(e.message)
+    }
+})
+
+
+
 
 
 
@@ -508,6 +525,23 @@ for (const newresponse of vwsendcllgbldrqst){
     let cllg=await user.findById(newresponse.collegeId)
     responseData.push({
         cllg:cllg,
+        req:newresponse
+    });
+}
+console.log(responseData)
+res.json(responseData)
+})
+router.get('/viewhosreceivdcollgbldrqsthist/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log(id);
+    let vwreceivdcollgrqst = await collgsendreqst.find({hospitalId:id,status:"Accepted"})
+console.log(vwreceivdcollgrqst);
+let responseData =[];
+for (const newresponse of vwreceivdcollgrqst){
+
+    let collgdetail=await user.findById(newresponse.userId)
+    responseData.push({
+        collgdetail:collgdetail,
         req:newresponse
     });
 }
