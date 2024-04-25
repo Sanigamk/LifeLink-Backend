@@ -19,10 +19,6 @@ const mybloodcollgSchema=Schema({
         type:Number,
         required:true
     },
-    status:{
-        type:String,
-
-    },
     date:{
         type:Date,
         default:Date.now

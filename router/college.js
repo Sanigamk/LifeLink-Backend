@@ -19,7 +19,7 @@ router.get('/vwcollgrqst/:id',async(req,res)=>{
     console.log(vwcollgrqst)
     let responseData=[];
     for(const newresponse of vwcollgrqst){
-        let hospital= await user.findById(newresponse.user);
+        let hospital= await user.findById(newresponse.hospitalId);
         responseData.push({
             hospital:hospital,
             req:newresponse

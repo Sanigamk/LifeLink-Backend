@@ -112,6 +112,7 @@ router.put('/mnghosptlorganrqst/:id',async(req,res)=>{
     if(rqst){
 
         let rqstUpdate=await myorganrqst.findByIdAndUpdate(rqst?.requestId,req.body)
+        let del=await hossendrequesttoorgandonor.deleteMany({requestId:rqst?.requestId,status:'pending'})
         console.log(rqstUpdate,'==========================');
     }
         console.log(mnghosptlorganrqst);

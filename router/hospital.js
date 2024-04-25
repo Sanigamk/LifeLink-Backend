@@ -352,19 +352,25 @@ router.get('/vworgandonors/:id', async (req, res) => {
         let filter = { hospitalId: id, status: "Accepted" };
 
         if (organ) {
-            filter[`organsAfterDeath.${organ.toLowerCase()}`] = true;
+            // Check if the organ is available for donation either before or after death
+            filter.$or = [
+                { [`organsBeforeDeath.${organ.toLowerCase()}`]: true },
+                { [`organsAfterDeath.${organ.toLowerCase()}`]: true }
+            ];
         }
         if (bloodGroup) {
             filter.bloodgroup = bloodGroup;
         }
 
         let vworgandonors = await organdonor.find(filter);
+        console.log(vworgandonors,'---------------------');
         res.json(vworgandonors);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
     
 router.get('/vwpageorgandnr/:id',async(req,res)=>{
     let id=req.params.id
