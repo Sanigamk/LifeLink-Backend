@@ -14,18 +14,21 @@ const router=express.Router()
 router.post('/register',upload.fields([{name:'certificate'},{name:'healthcertificate'},{name:'proof'}]), async (req,res)=>{
     try{
         console.log(req.files);
-        if(req.files['healthcertificate']){
-            let certificate=req.files['healthcertificate'][0].filename
-            req.body={...req.body,healthcertificate:certificate}
-        }
-        if(req.files['certificate']){
-            let certificate1=req.files['certificate'][0].filename
-            req.body={...req.body,certificate:certificate1}
-        }
-        if(req.files['proof']){
+        if(req.files){
+
+            if(req.files['healthcertificate']){
+                let certificate=req.files['healthcertificate'][0].filename
+                req.body={...req.body,healthcertificate:certificate}
+            }
+            if(req.files['certificate']){
+                let certificate1=req.files['certificate'][0].filename
+                req.body={...req.body,certificate:certificate1}
+            }
+            if(req.files['proof']){
             let certificate2=req.files['proof'][0].filename
             req.body={...req.body,proof:certificate2}
         }
+    }
         const existMail=await user.findOne({email:req.body.email})
         if(existMail){
             return res.status(400).json({message:'mail exist'})
