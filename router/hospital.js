@@ -146,12 +146,39 @@ router.get('/vworgandonor/:id',async(req,res)=>{
     console.log(vworgandonor);
     res.json(vworgandonor)
 })
+
+
+
+
+
+
+
+
+
+
+
 router.get('/vwpageorgandnr/:id',async(req,res)=>{
         let id=req.params.id
-        let vwpageorgandnr = await organdonor.findById(id)      
+        let vwpageorgandnr = await hossendrequesttoorgandonor.findById(id)      
+        let donorr=await organdonor.findById(vwpageorgandnr.organdonorId)
+        let reqstt=await myorganrqst.findById(vwpageorgandnr.requestId)
+          
         console.log(vwpageorgandnr)
-        res.json(vwpageorgandnr)
+        res.json({vwpageorgandnr,donorr,reqstt})
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
 router.post('/hossendrqsttoorgandonor',async(req,res)=>{
     console.log(req.body);
     const newhossendorgandnr = new hossendrequesttoorgandonor(req.body)
@@ -374,9 +401,10 @@ router.get('/vworgandonors/:id', async (req, res) => {
     
 router.get('/vwpageorgandnr/:id',async(req,res)=>{
     let id=req.params.id
-    let vwpageorgandonor = await organdonor.findById(id)      
+    let vwpageorgandonor = await hossendrequesttoorgandonor.findById(id)  
+    let donorr=await organdonor.findById(vwpageorgandonor.organdonorId)  
     console.log(vwpageorgandonor)
-    res.json(vwpageorgandonor)
+    res.json({vwpageorgandonor,donorr})
 })
 router.post('/sendrequestorgandonor',async(req,res)=>{
 
@@ -461,7 +489,7 @@ router.put('/mnguserbldrqst/:id',async(req,res)=>{
 router.get('/vwblddonordonationhist/:id',async(req,res)=>{
     try{
     let id=req.params.id
-    let vwdonordonationhist = await donorsendrqst.find({hospitalId:id})
+    let vwdonordonationhist = await donorsendrqst.find({hospitalId:id,status:"Accepted"})
 
     console.log(vwdonordonationhist);
     let responseData =[];
