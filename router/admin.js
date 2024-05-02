@@ -33,6 +33,14 @@ router.post('/register',upload.fields([{name:'certificate'},{name:'healthcertifi
         if(existMail){
             return res.status(400).json({message:'mail exist'})
         }
+        const contact=await user.findOne({contact:req.body.contact})
+        if(contact){
+            return res.status(400).json({message:'contact exist'})
+        }
+        const liscence=await user.findOne({liscence:req.body.liscence})
+        if(liscence){
+            return res.status(400).json({message:'liscence number exist'})
+        }
         console.log(req.body);
         const newUser= new user(req.body)
         const savedUser = await newUser.save()
@@ -74,33 +82,33 @@ router.get('/vwcollgprofile/:id',async (req,res)=>{
     console.log(response);
     res.json(response)
 })
-// router.put('/editdonorprofile/:id',upload.fields([{name:'certificate'},{name:'healthcertificate'},{name:'proof'},{name:'conformationcertificate'}]),async(req,res)=>{
-//     try{
-//         if(req.files['healthcertificate']){
-//             let certificate=req.files['healthcertificate'][0].filename
-//             req.body={...req.body,healthcertificate:certificate}
-//         }
-//         if(req.files['certificate']){
-//             let certificate1=req.files['certificate'][0].filename
-//             req.body={...req.body,certificate:certificate1}
-//         }
-//         if(req.files['proof']){
-//             let certificate2=req.files['proof'][0].filename
-//             req.body={...req.body,proof:certificate2}
-//         }
-//         if(req.files['conformationcertificate']){
-//             let conformationcertificate=req.files['conformationcertificate'][0].filename
-//             req.body={...req.body,conformationcertificate:conformationcertificate}
-//         }
-//     let id=req.params.id
-//     console.log(req.body);
-//     let response = await user.findByIdAndUpdate(id,req.body)
-//     console.log(response);
-// }
-// catch(e){
-//     res.json(e.message)
-// }
-// })
+router.put('/editdonorprofile/:id',upload.fields([{name:'certificate'},{name:'healthcertificate'},{name:'proof'},{name:'conformationcertificate'}]),async(req,res)=>{
+    try{
+        if(req.files['healthcertificate']){
+            let certificate=req.files['healthcertificate'][0].filename
+            req.body={...req.body,healthcertificate:certificate}
+        }
+        if(req.files['certificate']){
+            let certificate1=req.files['certificate'][0].filename
+            req.body={...req.body,certificate:certificate1}
+        }
+        if(req.files['proof']){
+            let certificate2=req.files['proof'][0].filename
+            req.body={...req.body,proof:certificate2}
+        }
+        if(req.files['conformationcertificate']){
+            let conformationcertificate=req.files['conformationcertificate'][0].filename
+            req.body={...req.body,conformationcertificate:conformationcertificate}
+        }
+    let id=req.params.id
+    console.log(req.body);
+    let response = await user.findByIdAndUpdate(id,req.body)
+    console.log(response);
+}
+catch(e){
+    res.json(e.message)
+}
+})
 router.post('/addcategory',async(req,res)=>{
     console.log(req.body);
     const newaddcategory = new category(req.body)

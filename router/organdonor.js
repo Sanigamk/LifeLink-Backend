@@ -29,6 +29,24 @@ router.post('/registers', upload.fields([{ name: 'conformationcertificate' }, { 
             let certificate2 = req.files['signature'][0].filename;
             bodyData.signature = certificate2;
         }
+        const existMail=await organdonor.findOne({email:req.body.email})
+        if(existMail){
+            return res.status(400).json({message:'mail exist'})
+        }
+        const contact=await organdonor.findOne({contact:req.body.contact})
+        if(contact){
+            return res.status(400).json({message:'contact exist'})
+        }
+        const adhaar=await organdonor.findOne({adhaarnumber:req.body.adhaarnumber})
+        if(adhaar){
+            return res.status(400).json({message:'adhaar exist'})
+        }
+        const nominecontact=await organdonor.findOne({nominiecontact:req.body.nominiecontact})
+        if(nominecontact){
+            return res.status(400).json({message:'nominie contact exist'})
+        }
+        
+        
 
         console.log(bodyData);
         const neworgan = new organdonor(bodyData);

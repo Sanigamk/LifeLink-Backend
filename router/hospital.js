@@ -148,7 +148,13 @@ router.get('/vworgandonor/:id',async(req,res)=>{
 })
 
 
-
+router.get('/viewpageorgandnrs/:id',async(req,res)=>{
+    let id=req.params.id
+    console.log('---------------',id);
+    let donorr=await organdonor.findById(id)
+    console.log(donorr)
+    res.json(donorr)
+})
 
 
 
@@ -160,8 +166,8 @@ router.get('/vworgandonor/:id',async(req,res)=>{
 router.get('/vwpageorgandnr/:id',async(req,res)=>{
         let id=req.params.id
         let vwpageorgandnr = await hossendrequesttoorgandonor.findById(id)      
-        let donorr=await organdonor.findById(vwpageorgandnr.organdonorId)
-        let reqstt=await myorganrqst.findById(vwpageorgandnr.requestId)
+        let donorr=await organdonor.findById(vwpageorgandnr?.organdonorId)
+        let reqstt=await myorganrqst.findById(vwpageorgandnr?.requestId)
           
         console.log(vwpageorgandnr)
         res.json({vwpageorgandnr,donorr,reqstt})

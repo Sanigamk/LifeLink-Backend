@@ -51,6 +51,9 @@ const userSchema=Schema({
     height:{
         type:String,
     },
+    gender:{
+        type: String,
+    },
     weight:{
         type:Number,
     },
