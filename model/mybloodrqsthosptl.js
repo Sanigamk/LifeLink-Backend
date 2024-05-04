@@ -11,7 +11,7 @@ const mybloodhosptlSchema=new Schema({
         ref:user
     },
     bloodunit:{
-        type:String,
+        type:Number,
         required:true
     },
     bloodgroup:{

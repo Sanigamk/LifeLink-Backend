@@ -14,7 +14,8 @@ const userSchema=Schema({
         type:String,
     },
     contact:{
-        type:Number,
+        type:String,
+        unique:true,
     },
     liscence:{
         type:Number,
@@ -37,7 +38,7 @@ const userSchema=Schema({
         type:String,
     },
     pin:{
-        type:Number,
+        type:String,
     },
     hospitalname:{
         type:String,

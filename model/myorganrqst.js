@@ -33,7 +33,7 @@ const myorganrqstSchema=Schema({
         required:true
     },
     adhaarnumber:{
-        type:String,
+        type:Number,
         required:true
     },
     email:{
@@ -45,7 +45,7 @@ const myorganrqstSchema=Schema({
         required:true
     },
     contact:{
-        type:String,
+        type:Number,
         required:true
     },
     

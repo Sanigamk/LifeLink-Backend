@@ -7,7 +7,49 @@ import { myorganrqst } from "../model/myorganrqst.js";
 import { mybloodhosptl } from "../model/mybloodrqsthosptl.js";
 import organdonor from "../model/organdonors.js";
 import category from "../model/addcategory.js";
-const router=express.Router()
+import nodemailer from 'nodemailer'
+const router=express()
+
+
+
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'lifelinkmain@gmail.com',
+    pass: 'keac eyap wiga xhvx',
+  },
+});
+
+router.post('/sendOTP', async (req, res) => {
+  const { email } = req.body;
+  const otp = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
+  const mailOptions = {
+    from: 'lifelink@gmail.com',
+    to: email,
+    subject: 'Your OTP for Verification',
+    text: `Your OTP is: ${otp}`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).send({ message: 'OTP sent successfully',otp });
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    res.status(500).send({ error: 'Failed to send OTP' });
+  }
+});
+
+router.put('/changepass/:email',async(req,res)=>{
+    let email=req.params.email
+    console.log(req.body,email);
+    let response=await user.findOne({email:email})
+    console.log(response);
+    let response1=await user.findByIdAndUpdate(response?._id, req.body,{new:true})
+    console.log(req.body); 
+    console.log(response1);
+    res.json(response1)
+})
 
 
 
@@ -129,7 +171,7 @@ router.get('/viewcategory',async (req,res)=>{
 
 router.post('/login',async(req,res)=>{
     console.log(req.body);
-    let users=await user.findOne(req.body)
+    let users=await user.findOne({email:req.body.email,password:req.body.password})
     console.log(users);
     res.json(users)
 })

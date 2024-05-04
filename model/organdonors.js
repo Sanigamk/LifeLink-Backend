@@ -17,9 +17,11 @@ const organdonorSchema = Schema({
     },
     email:{
         type:String,
+        unique:true
     },
     adhaarnumber: {
         type: String,
+        unique:true
     },
     gender:{
         type: String,
@@ -53,6 +55,7 @@ const organdonorSchema = Schema({
     },
     contact:{
         type:String,
+        unique:true
     },
     signature:{
         type:String,
@@ -64,7 +67,8 @@ const organdonorSchema = Schema({
         type: String,
     },
     nominiecontact: {
-        type: Number,
+        type: String,
+        unique:true,
     },
     nominierelation: {
         type: String,
