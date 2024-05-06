@@ -55,7 +55,7 @@ const hossendrequesttoorgandonorsSchema=Schema({
     patientidproof:{
         type:String,
     },
-    doctdername:{
+    doctername:{
         type:String,
     },
     prescription:{

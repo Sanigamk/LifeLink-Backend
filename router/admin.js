@@ -79,10 +79,12 @@ router.post('/register',upload.fields([{name:'certificate'},{name:'healthcertifi
         if(contact){
             return res.status(400).json({message:'contact exist'})
         }
+        if(req.body.liscence){
         const liscence=await user.findOne({liscence:req.body.liscence})
         if(liscence){
             return res.status(400).json({message:'liscence number exist'})
         }
+    }
         console.log(req.body);
         const newUser= new user(req.body)
         const savedUser = await newUser.save()

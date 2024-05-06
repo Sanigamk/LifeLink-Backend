@@ -102,6 +102,14 @@ const organdonorSchema = Schema({
         pancreas: {
             type: Boolean,
             default: false
+        },
+        skin: {
+            type: Boolean,
+            default: false
+        },
+        Bonemarrow: {
+            type: Boolean,
+            default: false
         }
     },
     organsAfterDeath: {

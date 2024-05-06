@@ -124,10 +124,13 @@ router.get('/vwpagehosrequest/:id',async (req,res)=>{
 router.put('/mnghosptlorganrqst/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
-    console.log(req.body)
+    console.log(req.body,'------------------------')
     let mnghosptlorganrqst = await hossendrequesttoorgandonor.findByIdAndUpdate(id,req.body)
     let rqst=await hossendrequesttoorgandonor.findById(id)
+    console.log(rqst,'======================================');
     if(rqst){
+        const requestId = rqst.requestId;
+        const donorUpdate = await organdonor.findByIdAndUpdate(rqst.organdonorId, { $set: { [`organsBeforeDeath.${rqst.organ}`]: false } });        console.log(donorUpdate,'=-=--9098yhjk-----');
 
         let rqstUpdate=await myorganrqst.findByIdAndUpdate(rqst?.requestId,req.body)
         let del=await hossendrequesttoorgandonor.deleteMany({requestId:rqst?.requestId,status:'pending'})

@@ -185,8 +185,20 @@ router.get('/vwpageorgandnr/:id',async(req,res)=>{
 
 
 
-router.post('/hossendrqsttoorgandonor',async(req,res)=>{
+router.post('/hossendrqsttoorgandonor',upload.fields([{name:"healthcertificate"},{name:"prescription"},{name:"patientidproof"}]),async(req,res)=>{
     console.log(req.body);
+    if(req.files['healthcertificate']){
+        let healthcertificate=req.files['healthcertificate'][0].filename
+        req.body={...req.body,healthcertificate:healthcertificate}
+    }
+    if(req.files['prescription']){
+        let prescription=req.files['prescription'][0].filename
+        req.body={...req.body,prescription:prescription}
+    }
+    if(req.files['patientidproof']){
+        let patientidproof=req.files['patientidproof'][0].filename
+        req.body={...req.body,patientidproof:patientidproof}
+    }
     const newhossendorgandnr = new hossendrequesttoorgandonor(req.body)
     const savedhossendorgandnr = await newhossendorgandnr.save()
     res.json({message:savedhossendorgandnr})
