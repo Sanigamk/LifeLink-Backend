@@ -168,9 +168,10 @@ router.get('/vwpageorgandnr/:id',async(req,res)=>{
         let vwpageorgandnr = await hossendrequesttoorgandonor.findById(id)      
         let donorr=await organdonor.findById(vwpageorgandnr?.organdonorId)
         let reqstt=await myorganrqst.findById(vwpageorgandnr?.requestId)
+        let userr=await user.findById(reqstt?.userId)
           
         console.log(vwpageorgandnr)
-        res.json({vwpageorgandnr,donorr,reqstt})
+        res.json({vwpageorgandnr,donorr,reqstt,userr})
 })
 
 
@@ -276,7 +277,7 @@ router.get('/vwpagehosbldrqst/:id',async(req,res)=>{
 router.get('/vwblddonordonationreq/:id',async(req,res)=>{
     try{
     let id=req.params.id
-    let vwdonationreq = await donorsendrqst.find()
+    let vwdonationreq = await donorsendrqst.find({hospitalId:id})
 
     console.log(vwdonationreq);
     let responseData =[];
@@ -367,7 +368,7 @@ router.put('/mnghosptlbldrqst/:id',async(req,res)=>{
 router.get('/viewhosorganrqst/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
-    let vworgnrqst = await myorganrqst.find({ userId: { $ne: id } });
+    let vworgnrqst = await myorganrqst.find({ userId: { $ne: id },status:"pending" });
 
 console.log(vworgnrqst);
 let responseData =[];
@@ -461,6 +462,9 @@ router.put('/mngcllgbldrqst/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
     console.log(req.body)
+    if(req.body.status=="Rejected"){
+        req.body={status:"Rejected"}
+    }
     let mngcollg = await collgsendreqst.findByIdAndUpdate(id,req.body)
     console.log(mngcollg);
     
@@ -471,26 +475,28 @@ router.put('/mngcllgbldrqst/:id',async(req,res)=>{
 
 
 
-router.get('/vwuserreq',async(req,res)=>{
-    // let id=req.params.id
-    // console.log(id);
-    let vwuserreq= await usersendrqst.find({status:"pending"});
-    console.log(vwuserreq)
-    let responseData=[];
-    for(const newresponse of vwuserreq){
+router.get('/vwuserreq', async (req, res) => {
+    let vwuserreq = await usersendrqst.find({ status: { $in: ["pending", "Accepted"] } });
+    let responseData = [];
+    for (const newresponse of vwuserreq) {
         let users = await user.findById(newresponse.userId);
         responseData.push({
-            user:users,
-            req:newresponse
+            user: users,
+            req: newresponse
         })
-    } 
-    console.log(responseData)
-    res.json(responseData)
+    }
+    res.json(responseData);
 })
+
+
 router.put('/mnguserbldrqst/:id',async(req,res)=>{
     let id=req.params.id
     console.log(id);
     console.log(req.body)
+    if(req.body.status=="Rejected"){
+        req.body={status:"Rejected"}
+
+    }
     let mngusersendrqst = await usersendrqst.findByIdAndUpdate(id,req.body)
     console.log(mngusersendrqst);
     

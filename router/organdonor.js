@@ -128,13 +128,16 @@ router.put('/mnghosptlorganrqst/:id',async(req,res)=>{
     let mnghosptlorganrqst = await hossendrequesttoorgandonor.findByIdAndUpdate(id,req.body)
     let rqst=await hossendrequesttoorgandonor.findById(id)
     console.log(rqst,'======================================');
-    if(rqst){
-        const requestId = rqst.requestId;
-        const donorUpdate = await organdonor.findByIdAndUpdate(rqst.organdonorId, { $set: { [`organsBeforeDeath.${rqst.organ}`]: false } });        console.log(donorUpdate,'=-=--9098yhjk-----');
+    if(req.body.status=="Accepted"){
 
-        let rqstUpdate=await myorganrqst.findByIdAndUpdate(rqst?.requestId,req.body)
-        let del=await hossendrequesttoorgandonor.deleteMany({requestId:rqst?.requestId,status:'pending'})
-        console.log(rqstUpdate,'==========================');
+        if(rqst){
+            const requestId = rqst.requestId;
+            const donorUpdate = await organdonor.findByIdAndUpdate(rqst.organdonorId, { $set: { [`organsBeforeDeath.${rqst.organ}`]: false } });        console.log(donorUpdate,'=-=--9098yhjk-----');
+            
+            let rqstUpdate=await myorganrqst.findByIdAndUpdate(rqst?.requestId,req.body)
+            let del=await hossendrequesttoorgandonor.deleteMany({requestId:rqst?.requestId,status:'pending'})
+            console.log(rqstUpdate,'==========================');
+        }
     }
         console.log(mnghosptlorganrqst);
         res.json(mnghosptlorganrqst)
