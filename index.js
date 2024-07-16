@@ -10,7 +10,7 @@ import organRouter from './router/organdonor.js';
 import cors from 'cors'
 const app = express();
 app.use('/uploads', express.static('uploads'));
-mongoose.connect("mongodb://localhost:27017/AWHMca")
+mongoose.connect("mongodb+srv://sanigamk:80TD7GN9EyxJ0LwD@cluster0.vmy4dm2.mongodb.net/LifeLink")
 .then((res)=>{console.log(`mongodb connected host:${res.connection.host}`)})
 
 app.use(express.json())
